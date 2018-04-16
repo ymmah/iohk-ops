@@ -12,22 +12,15 @@ export TMPDIR=/tmp/
 export TEMP=/tmp/
 export TMP=/tmp/
 
-#$(nix-build set-cluster.nix \
-#    --argstr clusterName ${CLUSTERNAME} \
-#    --argstr commit  ${COMMIT} \
-#    )/bin/set-cluster.sh
-
-
-$(nix-build run-bench.nix     \
-    --argstr coreNodes     7      \
-    --argstr startWaitTime 10     \
-    --argstr time          6000    \
-    --argstr conc          2      \
-    --argstr delay         250    \
-    --argstr sendMode send-random \
-    --argstr cooldown      10     \
-    --argstr addGenerators 6      \
-    --argstr edgeNodes     10      \
-    --arg walletsDeployment  \"edgenodes-cluster\" \
+$(nix-build run-bench.nix        \
+    --argstr coreNodes     7     \
+    --argstr startWaitTime 10    \
+    --argstr time          6000  \
+    --argstr conc          2     \
+    --argstr delay         250   \
+    --argstr cooldown      10    \
+    --argstr addGenerators 6     \
+    --argstr edgeNodes     10    \
+    --argstr walletsDeployment edgenodes-cluster \
     )/bin/run-bench.sh
 
