@@ -14,7 +14,15 @@ The scripts that are used are the following:
 
 ## Steps
 
-1. `SSH` to the staging jumpserver (`ssh staging@18.196.206.34`)
+1. `SSH` to the staging jumpserver: 
+   ```
+   ssh staging@18.196.206.34
+   ```
+
+1. Create a new tmux session so as not to lose your work after a disconnection:
+   ```
+   tmux new -s myname
+   ```
 
 1. `git clone https://github.com/input-output-hk/iohk-ops -b IOHK-OPS-BRANCH ISSUE-ID` (~`iohk-ops clone ISSUE-ID [IOHK-OPS-BRANCH]` ~) -- _the branch defaults to `develop`_
 
@@ -97,3 +105,28 @@ following example:
   --arg walletsDeployment  \"\" \
   )/bin/run-bench.sh
   ```
+
+## Basic commands of `tmux`
+
+To attach to a named session:
+  ```
+  tmux a -t myname
+  ```
+
+To list sessions:
+  ```
+  tmux ls
+  ```
+
+To scroll:
+  ```
+  Ctrl-b [
+  ```
+
+To create a new pane by splitting an existing one:
+  ```
+  Ctrl-b "          split vertically (top/bottom)
+  Ctrl-b %          split horizontally (left/right)
+  ```
+
+More commands in https://gist.github.com/MohamedAlaa/2961058.
