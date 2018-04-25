@@ -21,7 +21,7 @@ writeScriptBin "run-bench.sh" ''
   set -o xtrace # print commands
 
   # set policy files to be used
-  awk '$1=="(\"--policies" {$1="    (\"--policies"; $7="\"''${./../benchmarks/${corePolicy}}\"" ; $9="\"''${./../benchmarks/${relayPolicy}}\"))"} 1' ../modules/cardano-service.nix  > ../modules/cardano-service.nix.new
+  awk '$2=="cfg.enablePolicies" {$1="    (optionalString"; $9="\"''${./../benchmarks/${corePolicy}}\"" ; $11="\"''${./../benchmarks/${relayPolicy}}\"))"} 1' ../modules/cardano-service.nix  > ../modules/cardano-service.nix.new
   mv ../modules/cardano-service.nix.new ../modules/cardano-service.nix
 
   CLUSTERNAME=`grep name: config.yaml | awk '{print $2}'`
