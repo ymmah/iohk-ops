@@ -76,6 +76,7 @@ globals: imports: params:
       nodeIndex   = params.i;
       relayIndex  = params.relayIndex;
       port        = params.port;
+      enablePolicies = (globals.environment == "benchmark");
       topologyYaml      =
          if !params.typeIsExplorer
          then globals.topologyYaml

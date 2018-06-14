@@ -1,6 +1,7 @@
-{ accessKeyId, nodes ? 1 , walletsPerNode ? 1
+{ accessKeyId, nodes ? 1 , walletsPerNode ? 10
 , region ? "eu-central-1"
-, topologyFile, systemStart }:
+, topologyFile
+, systemStart }:
 
 with import ../lib.nix;
 let
@@ -37,6 +38,7 @@ let
           instanceType = mkDefault "t2.large";
           keyPair = resources.ec2KeyPairs.edgekey;
           ebsInitialRootDiskSize = 100;
+          securityGroups = [ resources.ec2SecurityGroups.edgenodes ];
         };
       };
     };
@@ -44,5 +46,15 @@ let
 in {
   resources.ec2KeyPairs.edgekey = {
     inherit region accessKeyId;
+  };
+  resources.ec2SecurityGroups.edgenodes = {
+    inherit region accessKeyId;
+    description = "edgenode rules";
+    rules = [ {
+      protocol = "tcp";
+      fromPort = 22;
+      toPort = 22;
+      sourceIp = "0.0.0.0/0";
+    } ];
   };
 } // listToAttrs (map mkNode (range 1 nodes))
