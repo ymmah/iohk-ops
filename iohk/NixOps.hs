@@ -50,7 +50,7 @@ module NixOps (
   , parallelIO
   , nixopsConfigurationKey
   , configurationKeys
-  , getCardanoSLSource
+  , getCardanoSLConfig
 
   -- * Types
   , Arg(..)
@@ -569,10 +569,9 @@ incmd Options{..} bin args = do
   inprocs bin args empty
 incmdStrip Options{..} bin args = do
   when (toBool oVerbose) $ logCmd bin args
-  --txt <-
-  --T.strip <$> inprocs bin args empty
-  T.dropAround (\c -> isSpace c || c == '\"') <$> inprocs bin args empty
-
+  T.strip <$> inprocs bin args empty
+
+
 -- * Invoking nixops
 --
 iohkNixopsPath :: FilePath
@@ -799,13 +798,10 @@ build o _c depl = do
   cmd o "nix-build" ["--max-jobs", "4", "--cores", "2", "-A", fromAttr $ deploymentBuildTarget depl]
 
 
--- | Use nix to grab the sources of cardano-sl.
-getCardanoSLSource :: Options -> IO Path.FilePath
-getCardanoSLSource o = do
-  fromText <$> incmdStrip o "nix-instantiate" args
-  --let c = T.drop 1 $ T.take ((T.length b) - 1) b
-  --return $ fromText $ c
-  where args = [ "--read-write-mode", "--eval", "-A", "cardano-sl.src", "default.nix" ]
+-- | Use nix to grab the cardano-sl-config.
+getCardanoSLConfig :: Options -> IO Path.FilePath
+getCardanoSLConfig o = fromText <$> incmdStrip o "nix-build" args
+  where args = [ "-A", "cardano-sl-config", "default.nix" ]
 
 
 -- * State management
