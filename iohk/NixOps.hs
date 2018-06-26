@@ -124,7 +124,7 @@ import           Data.Aeson                       ((.:), (.:?), (.=), (.!=))
 import           Data.Aeson.Encode.Pretty         (encodePretty)
 import qualified Data.ByteString.UTF8          as BU
 import qualified Data.ByteString.Lazy.UTF8     as LBU
-import           Data.Char                        (ord)
+import           Data.Char                        (ord, isSpace)
 import           Data.Csv                         (decodeWith, FromRecord(..), FromField(..), HasHeader(..), defaultDecodeOptions, decDelimiter)
 import           Data.Either
 import           Data.Hourglass                   (timeAdd, timeFromElapsed, timePrint, Duration(..), ISO8601_DateAndTime(..))
@@ -569,7 +569,7 @@ incmd Options{..} bin args = do
   inprocs bin args empty
 incmdStrip Options{..} bin args = do
   when (toBool oVerbose) $ logCmd bin args
-  T.strip <$> inprocs bin args empty
+  T.dropAround (\c -> isSpace c || c == '\"') <$> inprocs bin args empty
 
 
 -- * Invoking nixops
@@ -800,7 +800,7 @@ build o _c depl = do
 
 -- | Use nix to grab the sources of cardano-sl.
 getCardanoSLSource :: Options -> IO Path.FilePath
-getCardanoSLSource o = parent . fromText <$> incmdStrip o "nix-instantiate" args
+getCardanoSLSource o = fromText <$> incmdStrip o "nix-instantiate" args
   where args = [ "--read-write-mode", "--eval", "-A", "cardano-sl.src", "default.nix" ]
 
 
