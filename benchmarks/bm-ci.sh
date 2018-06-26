@@ -11,8 +11,8 @@ export TMP=/tmp/
 
 "$(nix-build ./scripts/run-bench.nix\
     --argstr coreNodes     7       \
-    --argstr startWaitTime 10      \
-    --argstr txsPerThread  4000    \
+    --argstr startWaitTime 1      \
+    --argstr txsPerThread  40    \
     --argstr conc          1       \
     --argstr delay         500     \
     --argstr cooldown      10      \

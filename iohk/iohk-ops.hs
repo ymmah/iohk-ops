@@ -335,9 +335,11 @@ runNew _ _ _ = error "impossible"
 generateStakeKeys :: Options -> ConfigurationKey -> Turtle.FilePath -> IO ()
 generateStakeKeys o configurationKey outdir = do
   cardanoSrc <- getCardanoSLSource o
+  putStrLn $ "cardanoSrc: " ++ show cardanoSrc
   cmd o "cardano-keygen"
     [ "--system-start", "0"
-    , "--configuration-file", format (fp%"/lib/configuration.yaml") cardanoSrc
+--    , "--configuration-file", format (fp%"/lib/configuration.yaml") cardanoSrc
+    , "--configuration-file", format (fp%"/configuration.yaml") cardanoSrc
     , "--configuration-key", fromConfigurationKey configurationKey
     , "generate-keys-by-spec"
     , "--genesis-out-dir", T.pack $ Path.encodeString outdir

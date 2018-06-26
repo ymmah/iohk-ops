@@ -14,6 +14,9 @@
 }@args:
 
 with import <nixpkgs> {};
+let
+  configurationYaml = (import ../. {}).cardano-sl.src + "/configuration.yaml";
+in
 writeScriptBin "run-bench.sh" ''
   #!/usr/bin/env bash
 
@@ -54,7 +57,8 @@ writeScriptBin "run-bench.sh" ''
   IO=$(nix-build -A iohk-ops)/bin/iohk-ops
 
   TOPOLOGY=`grep topology: ../config.yaml | awk '{print $2}'`
-  CONFIGURATIONYAML=`nix-instantiate -E '(import ./. {}).cardano-sl.src + "/configuration.yaml"' --eval`
+  #CONFIGURATIONYAML=`nix-instantiate -E '(import ./. {}).cardano-sl.src + "/configuration.yaml"' --eval`
+  CONFIGURATIONYAML=${configurationYaml}
 
   # build needed tools
   nix-build -A cardano-sl-auxx -o auxx         # transaction generator
@@ -69,7 +73,7 @@ writeScriptBin "run-bench.sh" ''
 
   # re-start the cluster
   $IO -C .. stop wipe-node-dbs --confirm wipe-journals
-  $IO -C .. deploy -t ''${START_WAIT_TIME}
+#  $IO -C .. deploy -t ''${START_WAIT_TIME} DOESN'T WORK   --TODO
   SYSTEMSTART=`grep -A 2 systemStart ../config.yaml | grep contents | awk '{print $2}'`
 
   # new wallets
