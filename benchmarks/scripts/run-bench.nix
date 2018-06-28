@@ -73,6 +73,7 @@ writeScriptBin "run-bench.sh" ''
 
   # re-start the cluster
   $IO -C .. stop wipe-node-dbs --confirm wipe-journals
+  nixops reboot
 #  $IO -C .. deploy -t ''${START_WAIT_TIME} DOESN'T WORK   --TODO
   SYSTEMSTART=`grep -A 2 systemStart ../config.yaml | grep contents | awk '{print $2}'`
 
