@@ -120,7 +120,7 @@ for the testnet IAM user.
     nix-shell -A withAuxx
 
     # need a configuration file from cardano-sl
-    git clone https://github.com/input-output-hk/cardano-sl -b devops-398-testnet
+    git clone https://github.com/input-output-hk/cardano-sl -b develop
 
     # generate some parameters
     python -c "import secrets; print(secrets.randbelow(2**256))" > testnet-seed.txt
