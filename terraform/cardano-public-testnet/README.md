@@ -160,7 +160,13 @@ From the directory `testnet@testnet-deployer:iohk-ops`.
     # datadog api
     nano static/datadog-api.secret
     nano static/datadog-application.secret
+
+    # report server
     echo foo > static/zendesk-token.secret
+
+    # recaptcha keypair for faucet
+    nano static/recaptcha_site_key
+    nano static/recaptcha_secret_key
 
     io deploy
 
