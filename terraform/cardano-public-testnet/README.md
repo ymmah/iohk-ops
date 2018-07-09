@@ -175,7 +175,7 @@ From the directory `testnet@testnet-deployer:iohk-ops`.
 Copy a genesis "poor" key to a temporary location and use it to create
 a wallet in Daedalus. Daedalus (Testnet build) needs to be running.
 
-    curl -i https://localhost:8090/api/wallets/keys \
+    curl -i https://localhost:8092/api/wallets/keys \
       --cacert ~/.local/share/Daedalus/testnet/tls/server/ca.crt \
       --cert ~/.local/share/Daedalus/testnet/tls/server/server.crt \
       --key ~/.local/share/Daedalus/testnet/tls/server/server.key \
